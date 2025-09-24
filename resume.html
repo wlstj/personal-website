@@ -27,6 +27,23 @@
       color: #fff;
       text-decoration: none;
     }
+    .preview-link {
+      display: inline-block;
+      margin-top: 1.2rem;
+      color: #0077ff;
+      font-size: 1rem;
+      font-weight: 500;
+      text-decoration: underline;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0.2rem 0.5rem;
+      transition: color 0.15s;
+    }
+    .preview-link:hover, .preview-link:focus {
+      color: #005fcc;
+      text-decoration: underline;
+    }
     .resume-container {
       display: flex;
       flex-direction: column;
@@ -42,6 +59,56 @@
     .resume-container p {
       font-size: 1.1rem;
       color: #444;
+    }
+    .pdf-preview-modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.55);
+      align-items: center;
+      justify-content: center;
+    }
+    .pdf-preview-content {
+      background: #fff;
+      border-radius: 10px;
+      max-width: 90vw;
+      max-height: 90vh;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+    .pdf-preview-content iframe {
+      width: 60vw;
+      height: 80vh;
+      border: none;
+      border-radius: 0 0 10px 10px;
+      background: #f8f8f8;
+    }
+    .close-modal-btn {
+      background: none;
+      border: none;
+      color: #333;
+      font-size: 1.7rem;
+      font-weight: bold;
+      cursor: pointer;
+      margin: 0.5rem 1rem 0 0;
+      align-self: flex-end;
+      transition: color 0.15s;
+    }
+    .close-modal-btn:hover, .close-modal-btn:focus {
+      color: #0077ff;
+    }
+    @media (max-width: 700px) {
+      .pdf-preview-content iframe {
+        width: 90vw;
+        height: 60vh;
+      }
     }
   </style>
 </head>
@@ -68,11 +135,55 @@
       <h1>Resume</h1>
       <p>Download my resume below.</p>
       <a class="download-btn" href="resume.pdf" download>Download PDF</a>
+      <button class="preview-link" id="previewPdfBtn" type="button">Preview PDF</button>
     </section>
+    <div class="pdf-preview-modal" id="pdfPreviewModal" tabindex="-1" aria-modal="true" role="dialog">
+      <div class="pdf-preview-content">
+        <button class="close-modal-btn" id="closePdfModalBtn" title="Close preview" aria-label="Close preview">&times;</button>
+        <iframe src="" id="pdfIframe" title="Resume PDF Preview"></iframe>
+      </div>
+    </div>
   </main>
 
   <footer>
     <p>© 2025 Jin</p>
   </footer>
+  <script>
+    const previewBtn = document.getElementById('previewPdfBtn');
+    const modal = document.getElementById('pdfPreviewModal');
+    const closeBtn = document.getElementById('closePdfModalBtn');
+    const pdfIframe = document.getElementById('pdfIframe');
+
+    previewBtn.addEventListener('click', function() {
+      pdfIframe.src = 'resume.pdf';
+      modal.style.display = 'flex';
+      // Trap focus inside modal for accessibility
+      closeBtn.focus();
+      document.body.style.overflow = 'hidden';
+    });
+
+    function closeModal() {
+      modal.style.display = 'none';
+      pdfIframe.src = '';
+      previewBtn.focus();
+      document.body.style.overflow = '';
+    }
+
+    closeBtn.addEventListener('click', closeModal);
+
+    // Close modal on outside click
+    modal.addEventListener('click', function(e) {
+      if (e.target === modal) {
+        closeModal();
+      }
+    });
+
+    // Close modal on Escape key
+    document.addEventListener('keydown', function(e) {
+      if (modal.style.display === 'flex' && (e.key === 'Escape' || e.key === 'Esc')) {
+        closeModal();
+      }
+    });
+  </script>
 </body>
 </html>
