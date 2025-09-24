@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jin | Portfolio</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .download-btn {
+      display: inline-block;
+      padding: 1rem 2.5rem;
+      background: linear-gradient(90deg, #0077ff 0%, #005fcc 100%);
+      color: #fff;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 2rem;
+      text-decoration: none;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+      transition: background 0.2s, transform 0.15s;
+      cursor: pointer;
+      margin-top: 2rem;
+    }
+    .download-btn:hover, .download-btn:focus {
+      background: linear-gradient(90deg, #005fcc 0%, #0077ff 100%);
+      transform: translateY(-2px) scale(1.04);
+      color: #fff;
+      text-decoration: none;
+    }
+    .resume-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 60vh;
+      text-align: center;
+    }
+    .resume-container h1 {
+      font-size: 2.2rem;
+      margin-bottom: 0.7rem;
+    }
+    .resume-container p {
+      font-size: 1.1rem;
+      color: #444;
+    }
+  </style>
+</head>
+<body>
+      <!-- Background video -->
+  <video class="video-bg" autoplay loop muted playsinline>
+    <source src="background.webm" type="video/webm">
+
+    Your browser does not support the video tag.
+  </video>
+  
+  <header>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="projects.html">Projects</a>
+      <a href="resume.html">Resume</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="resume-container">
+      <h1>Resume</h1>
+      <p>Download my resume below.</p>
+      <a class="download-btn" href="resume.pdf" download>Download PDF</a>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 Jin</p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jin | Portfolio</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Background video -->
+  <video class="video-bg" autoplay loop muted playsinline>
+    <source src="background.webm" type="video/webm">
+
+    Your browser does not support the video tag.
+  </video>
+
+  <header>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="projects.html">Projects</a>
+      <a href="resume.html">Resume</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1 id="animated-title"></h1>
+      <p id="animated-desc"></p>
+    </section>
+  </main>
+  <script>
+    // Texts to animate
+    const titleText = "Hi, I’m Jin";
+    const descText = "Business student & CS minor @ UCSD. Exploring tech, ideas, and the in-between.";
+
+    // Animation function
+    function typeWriter(element, text, delay = 50, callback) {
+      let i = 0;
+      function type() {
+        if (i <= text.length) {
+          element.textContent = text.slice(0, i);
+          i++;
+          setTimeout(type, delay);
+        } else if (callback) {
+          callback();
+        }
+      }
+      type();
+    }
+
+    // Animate title, then description
+    document.addEventListener("DOMContentLoaded", function() {
+      const titleEl = document.getElementById("animated-title");
+      const descEl = document.getElementById("animated-desc");
+      typeWriter(titleEl, titleText, 70, function() {
+        setTimeout(() => {
+          typeWriter(descEl, descText, 18);
+        }, 300);
+      });
+    });
+  </script>
+
+  <footer>
+    <p>© 2025 Jin</p>
+  </footer>
+</body>
+</html>
