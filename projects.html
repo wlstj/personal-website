@@ -5,6 +5,94 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Jin | Portfolio</title>
   <link rel="stylesheet" href="css/style.css">
+  <style>
+    .preview-link {
+      display: inline-block;
+      margin-top: 0.5rem;
+      color: #0077ff;
+      font-size: 1rem;
+      font-weight: 500;
+      text-decoration: underline;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0.2rem 0.5rem;
+      transition: color 0.15s;
+    }
+    .preview-link:hover, .preview-link:focus {
+      color: #005fcc;
+      text-decoration: underline;
+    }
+    .pdf-preview-modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.55);
+      align-items: center;
+      justify-content: center;
+    }
+    .pdf-preview-content {
+      background: #fff;
+      border-radius: 10px;
+      max-width: 90vw;
+      max-height: 90vh;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+    .pdf-preview-content iframe {
+      width: 60vw;
+      height: 80vh;
+      border: none;
+      border-radius: 0 0 10px 10px;
+      background: #f8f8f8;
+    }
+    .close-modal-btn {
+      background: none;
+      border: none;
+      color: #333;
+      font-size: 1.7rem;
+      font-weight: bold;
+      cursor: pointer;
+      margin: 0.5rem 1rem 0 0;
+      align-self: flex-end;
+      transition: color 0.15s;
+    }
+    .close-modal-btn:hover, .close-modal-btn:focus {
+      color: #0077ff;
+    }
+    @media (max-width: 700px) {
+      .pdf-preview-content iframe {
+        width: 90vw;
+        height: 60vh;
+      }
+    }
+    /* Centering styles for main content below header */
+    .center-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    .center-content ul {
+      list-style-position: inside;
+      padding-left: 0;
+    }
+    .center-content li {
+      text-align: center;
+    }
+    .center-content div,
+    .center-content a,
+    .center-content button {
+      text-align: center;
+    }
+  </style>
 </head>
 <body>
       <!-- Background video -->
@@ -26,9 +114,8 @@
   </header>
 
   <main>
-    <section class="content">
+    <section class="content center-content">
       <h2>Projects</h2>
-      <p>Here are some of the projects I have worked on.</p>
       <ul>
         <li>Overwatch Private Aimbot (Evolution Beta)</li>
         <div style="margin: 1rem 0;">
@@ -39,18 +126,65 @@
         </div>
         <li>BoxSpots</li>
         <div style="margin: 1rem 0;">
-          <iframe title="vimeo-player" src="https://player.vimeo.com/video/766026086?h=d435dfe8e2" width="640" height="360" frameborder="0" referrerpolicy="strict-origin-when-cross-origin" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" allowfullscreen></iframe>
+          <iframe title="vimeo-player" src="https://player.vimeo.com/video/766026086?h=d435dfe8e2" width="400" height="225" frameborder="0" referrerpolicy="strict-origin-when-cross-origin" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" allowfullscreen></iframe>
         </div>
-        <div style="margin-bottom: 1.5rem;">
+        <div style="margin-bottom: 0.5rem;">
           <a href="https://github.com/boxspots" target="_blank" rel="noopener noreferrer" style="color: #0077ff; text-decoration: underline; font-weight: 500;">View BoxSpots on GitHub</a>
+        </div>
+        <div style="margin-bottom: 1rem;">
+          <button class="preview-link" id="previewBoxSpotsPdfBtn" type="button">Details</button>
         </div>
         <li>Project 3</li>
       </ul>
+      <!-- Modal for BoxSpots PDF preview -->
+      <div class="pdf-preview-modal" id="boxSpotsPdfModal" tabindex="-1" aria-modal="true" role="dialog">
+        <div class="pdf-preview-content">
+          <button class="close-modal-btn" id="closeBoxSpotsPdfModalBtn" title="Close preview" aria-label="Close preview">&times;</button>
+          <iframe src="" id="boxSpotsPdfIframe" title="BoxSpots PDF Preview"></iframe>
+        </div>
+      </div>
     </section>
   </main>
 
   <footer>
     <p>© 2025 Jin</p>
   </footer>
+  <script>
+    // BoxSpots PDF preview modal logic
+    const previewBoxSpotsBtn = document.getElementById('previewBoxSpotsPdfBtn');
+    const boxSpotsModal = document.getElementById('boxSpotsPdfModal');
+    const closeBoxSpotsBtn = document.getElementById('closeBoxSpotsPdfModalBtn');
+    const boxSpotsPdfIframe = document.getElementById('boxSpotsPdfIframe');
+
+    previewBoxSpotsBtn.addEventListener('click', function() {
+      boxSpotsPdfIframe.src = 'BoxSpots.pdf';
+      boxSpotsModal.style.display = 'flex';
+      closeBoxSpotsBtn.focus();
+      document.body.style.overflow = 'hidden';
+    });
+
+    function closeBoxSpotsModal() {
+      boxSpotsModal.style.display = 'none';
+      boxSpotsPdfIframe.src = '';
+      previewBoxSpotsBtn.focus();
+      document.body.style.overflow = '';
+    }
+
+    closeBoxSpotsBtn.addEventListener('click', closeBoxSpotsModal);
+
+    // Close modal on outside click
+    boxSpotsModal.addEventListener('click', function(e) {
+      if (e.target === boxSpotsModal) {
+        closeBoxSpotsModal();
+      }
+    });
+
+    // Close modal on Escape key
+    document.addEventListener('keydown', function(e) {
+      if (boxSpotsModal.style.display === 'flex' && (e.key === 'Escape' || e.key === 'Esc')) {
+        closeBoxSpotsModal();
+      }
+    });
+  </script>
 </body>
 </html>
